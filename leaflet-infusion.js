@@ -28,11 +28,20 @@ var fluid_2_0_0 = fluid_2_0_0 || {};
                 initializeMapPanel: {
                     funcName: "fluid.leaflet.initializeMapPanel",
                     args: ["{that}"]
+                },
+                panTo: {
+                    this: "{that}.map",
+                    "method": "panTo"
                 }
             },
             listeners: {
                 "onCreate.initializeMapPanel": {
-                    funcName: "{that}.initializeMapPanel"
+                    funcName: "{that}.initializeMapPanel",
+                    priority: "first"
+                },
+                "onCreate.panMap": {
+                    funcName: "{that}.panTo",
+                    args: [[43.7764, -79.2318], {animate: true, duration: 5}]
                 }
             },
             modelListeners: {
