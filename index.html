@@ -4,21 +4,26 @@
 
 
     <!-- Leaflet -->
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
-    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    <link rel="stylesheet" href="src/lib/leaflet/leaflet.css" />
+    <script src="src/lib/leaflet/leaflet.js"></script>
 
     <!-- Infusion -->
-    <script src="infusion-all.js"></script>
-    <script src="leaflet-infusion.js"></script>
+    <script src="src/lib/infusion/infusion-all.js"></script>
+    <script src="src/leaflet-infusion.js"></script>
 
 </head>
 
 <body>
-<div class="mapContainer"><div class="mapPanel"></div></div>
+<div class="mapWithLocationIndex">
+    <div class="mapContainer">
+        <div class="mapPanel"></div>
+    </div>
+    <div class="mapController"></div>
+</div>
 
 <script>
 $(document).ready( function() {
-    fluid.leaflet(".mapContainer");
+    fluid.leaflet.mapWithLocationIndex(".mapWithLocationIndex");
 });
 </script>
 
