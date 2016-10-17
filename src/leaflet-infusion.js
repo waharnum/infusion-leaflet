@@ -20,6 +20,13 @@ var fluid_2_0_0 = fluid_2_0_0 || {};
                      listeners: {
                          "onMapReady.initializeLocationIndex": {
                              funcName: "{mapWithLocationIndex}.initializeLocationIndex"
+                         },
+                         "onMapReady.addPolylines": {
+                             funcName: "{mapWithLocationIndex}.addPolylines"
+                         },
+                         "onMapReady.addMapMarkers": {
+                             funcName: "{mapWithLocationIndex}.addMapMarkers",
+                             priority: "last"
                          }
                      }
                  }
@@ -45,7 +52,7 @@ var fluid_2_0_0 = fluid_2_0_0 || {};
                  },
                  "York": {
                      longitude: 43.6899,
-                     latitude: -79.4785                     
+                     latitude: -79.4785
                  },
                  "Scarborough": {
                      longitude: 43.7730,
@@ -56,6 +63,14 @@ var fluid_2_0_0 = fluid_2_0_0 || {};
          invokers: {
              "initializeLocationIndex": {
                  funcName: "fluid.leaflet.mapWithLocationIndex.initializeLocationIndex",
+                 args: "{that}"
+             },
+             "addMapMarkers": {
+                 funcName: "fluid.leaflet.mapWithLocationIndex.addMapMarkers",
+                 args: "{that}"
+             },
+             "addPolylines": {
+                 funcName: "fluid.leaflet.mapWithLocationIndex.addPolylines",
                  args: "{that}"
              }
          }
@@ -75,10 +90,33 @@ var fluid_2_0_0 = fluid_2_0_0 || {};
                     e.preventDefault();
                 });
 
-             locationItem.appendTo(locationList);
+             locationItem.appendTo(locationList).each(function (i, e) {
+                 var itemId = fluid.allocateSimpleId(e);
+                 locationData.domID = itemId;
+             });
+         });
+     };
+
+     fluid.leaflet.mapWithLocationIndex.addMapMarkers = function (that) {
+         fluid.each(that.model.locations, function (locationData, locationName) {
+
+             var marker = L.circle([locationData.longitude, locationData.latitude], 25);
+
+             marker.bindPopup(fluid.stringTemplate("<h1>%locationName</h1>", {locationName: locationName}));
+
+             marker.addTo(that.leafletMap.map);
+         });
+     };
+
+     fluid.leaflet.mapWithLocationIndex.addPolylines = function (that) {
+         var locationArray = fluid.hashToArray(that.model.locations, "locationName");
+
+         var latLongs = fluid.transform(locationArray, function (location) {
+             return [location.longitude, location.latitude];
          });
 
-         // that.leafletMap.panTo([43.6438, -79.5654], {animate: true, duration: 2});
+         var polyline = L.polyline(latLongs).addTo(that.leafletMap.map);
+
      };
 
     /********************
