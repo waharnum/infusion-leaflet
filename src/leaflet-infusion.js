@@ -21,42 +21,14 @@ var fluid_2_0_0 = fluid_2_0_0 || {};
                          "onMapReady.initializeLocationIndex": {
                              funcName: "{mapWithLocationIndex}.initializeLocationIndex"
                          },
-                         "onMapReady.addPolylines": {
-                             funcName: "{mapWithLocationIndex}.addPolylines"
-                         },
+                        //  "onMapReady.addPolylines": {
+                        //      funcName: "{mapWithLocationIndex}.addPolylines"
+                        //  },
                          "onMapReady.addMapMarkers": {
                              funcName: "{mapWithLocationIndex}.addMapMarkers",
                              priority: "last"
                          }
                      }
-                 }
-             }
-         },
-         model: {
-             locations: {
-                 "Toronto": {
-                     longitude: 43.6534,
-                     latitude: -79.3841
-                 },
-                 "Etobicoke": {
-                     longitude: 43.6438,
-                     latitude: -79.5654
-                 },
-                 "East York": {
-                     longitude: 43.6912,
-                     latitude: -79.3283
-                 },
-                 "North York": {
-                     longitude: 43.7673,
-                     latitude: -79.4146
-                 },
-                 "York": {
-                     longitude: 43.6899,
-                     latitude: -79.4785
-                 },
-                 "Scarborough": {
-                     longitude: 43.7730,
-                     latitude: -79.2575
                  }
              }
          },
@@ -86,7 +58,7 @@ var fluid_2_0_0 = fluid_2_0_0 || {};
 
              var locationItem = $("<li><a href=\"#\">" + locationName + "</a></li>")
                 .click(function (e) {
-                    that.leafletMap.panTo([locationData.longitude, locationData.latitude], {animate: true, duration: 2});
+                    that.leafletMap.panTo(L.latLng(locationData.latitude, locationData.longitude), {animate: true, duration: 2});
                     e.preventDefault();
                 });
 
@@ -100,7 +72,7 @@ var fluid_2_0_0 = fluid_2_0_0 || {};
      fluid.leaflet.mapWithLocationIndex.addMapMarkers = function (that) {
          fluid.each(that.model.locations, function (locationData, locationName) {
 
-             var marker = L.circle([locationData.longitude, locationData.latitude], 25);
+             var marker = L.circle(L.latLng(locationData.latitude, locationData.longitude), 10);
 
              marker.bindPopup(fluid.stringTemplate("<h1>%locationName</h1>", {locationName: locationName}));
 
@@ -112,10 +84,10 @@ var fluid_2_0_0 = fluid_2_0_0 || {};
          var locationArray = fluid.hashToArray(that.model.locations, "locationName");
 
          var latLongs = fluid.transform(locationArray, function (location) {
-             return [location.longitude, location.latitude];
+             return L.latLng(location.latitude, location.longitude);
          });
 
-         var polyline = L.polyline(latLongs).addTo(that.leafletMap.map);
+         var polyline = L.polyline(latLongs.sort()).addTo(that.leafletMap.map);
 
      };
 
@@ -128,7 +100,7 @@ var fluid_2_0_0 = fluid_2_0_0 || {};
             mapPanelOptions: {
                 height: "500px",
                 width: "500px",
-                initialZoom: 13,
+                initialZoom: 16,
                 initialLongitude: 43.6534,
                 initialLatitude: -79.3841
             },

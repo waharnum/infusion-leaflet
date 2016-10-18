@@ -23,7 +23,56 @@
 
 <script>
 $(document).ready( function() {
-    fluid.leaflet.mapWithLocationIndex(".mapWithLocationIndex");
+    fluid.leaflet.mapWithLocationIndex(".mapWithLocationIndex", {
+        model: {
+            locations: {
+                "205 Richmond St. W": {
+                    longitude: -79.388634,
+                    latitude: 43.649830
+                },
+                "230 Richmond St. W": {
+                    longitude: -79.388702,
+                    latitude: 43.649410
+                },
+                "51 McCaul St.": {
+                    longitude: -79.390169,
+                    latitude: 43.651642
+                },
+                "49 McCaul St.": {
+                    longitude: -79.390277,
+                    latitude: 43.651493
+                },
+                "52 McCaul St.": {
+                    longitude: -79.390563,
+                    latitude: 43.651918
+                },
+                "74 McCaul St.": {
+                    longitude: -79.391066,
+                    latitude: 43.652542
+                },
+                "122 Saint Patrick St.": {
+                    longitude: -79.390143,
+                    latitude: 43.653472
+                },
+                "113 McCaul St.": {
+                    longitude: -79.390373,
+                    latitude: 43.653660
+                },
+                "100 McCaul St.": {
+                    longitude: -79.391529,
+                    latitude: 43.653288
+                },
+                "285 Dundas St. W": {
+                    longitude: -79.491157,
+                    latitude: 43.665709
+                },
+                "115 McCaul St.": {
+                    longitude: -79.391087,
+                    latitude: 43.654286
+                }
+            }
+        }
+    });
 });
 </script>
 
