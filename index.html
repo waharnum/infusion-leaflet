@@ -22,8 +22,42 @@
 </div>
 
 <script>
+
+fluid.leaflet.addClickHandler = function (that) {
+    that.map.on('click', function (e) {
+        console.log(e.latlng);
+    })
+};
+
+fluid.leaflet.addBuildingBoundaries = function (that) {
+    fluid.each(that.model.locations, function (location) {
+        if(location.buildingBoundaries) {
+            var polygon = L.polygon(location.buildingBoundaries, {weight: 1, color: "black", fillColor: "red"});
+            that.leafletMap.map.addLayer(polygon);
+        }
+    });
+};
+
 $(document).ready( function() {
     fluid.leaflet.mapWithLocationIndex(".mapWithLocationIndex", {
+        components: {
+            leafletMap: {
+                options: {
+                    listeners: {
+                        "onMapReady.addClickHandler": {
+                            funcName: "fluid.leaflet.addClickHandler",
+                            args: "{that}",
+                            priority: "last"
+                        },
+                        "onMapReady.addBuildingBoundaries": {
+                            funcName: "fluid.leaflet.addBuildingBoundaries",
+                            args: "{mapWithLocationIndex}",
+                            priority: "last"
+                        }
+                    }
+                }
+            }
+        },
         model: {
             locations: {
                 "205 Richmond St. W": {
@@ -44,7 +78,8 @@ $(document).ready( function() {
                 },
                 "52 McCaul St.": {
                     longitude: -79.390563,
-                    latitude: 43.651918
+                    latitude: 43.651918,
+                    buildingBoundaries: [[43.65185807475334, -79.39087025821209],[43.65193376221404, -79.39054369926453],[43.651867778279275, -79.39051017165184],[43.651795001796565, -79.39084276556969]]
                 },
                 "74 McCaul St.": {
                     longitude: -79.391066,
